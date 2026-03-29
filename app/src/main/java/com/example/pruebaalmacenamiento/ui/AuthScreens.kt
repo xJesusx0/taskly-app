@@ -261,7 +261,7 @@ fun RegisterScreen(
                 value = username,
                 onValueChange = { username = it; errorMessage = "" },
                 label = "Usuario",
-                placeholder = "Elige un nombre de usuario",
+                placeholder = "Elige un email",
                 leadingIcon = {
                     Icon(Icons.Outlined.Person, contentDescription = null,
                         tint = BrandGreen, modifier = Modifier.size(20.dp))
@@ -325,6 +325,8 @@ fun RegisterScreen(
                     when {
                         username.isBlank() || password.isBlank() ->
                             errorMessage = "Completa todos los campos"
+                        !isEmail(username) ->
+                            errorMessage = "El formato del email no es valido"
                         password.length < 6 ->
                             errorMessage = "La contraseña debe tener al menos 6 caracteres"
                         password != confirmPassword ->
@@ -377,6 +379,10 @@ fun RegisterScreen(
             }
         }
     }
+}
+
+private fun isEmail(text: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(text).matches()
 }
 
 // ──────────────────────────────────────────────
